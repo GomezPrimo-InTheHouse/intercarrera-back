@@ -1,35 +1,33 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import apiRoutes from './routes/index.js';
-import morgan from 'morgan';
+// app.js
+import { spawn } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-import { pool } from './conection/supabase.js';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-dotenv.config();
+// Listado de microservicios
+const services = [
+  { name: 'ms-principal.js', port: 7001 },
+  // podés sumar más acá:
+  // { name: 'ms-twilio.js', port: 7002 },
+];
 
-const app = express();
+// Levantar cada microservicio
+services.forEach(service => {
+  const servicePath = path.join(__dirname, 'microservicios', service.name);
 
-app.use(morgan('dev'));
+  const child = spawn('node', [servicePath], {
+    env: { ...process.env, PORT: service.port },
+    stdio: 'inherit',
+    shell: true
+  });
 
-app.use(cors());
-app.use(express.json());
+  child.on('close', code => {
+    console.log(`✅ ${service.name} finalizó con código ${code}`);
+  });
 
-// ✅ Prefijo común para toda la API
-app.use('/api', apiRoutes);
-
-const PORT = process.env.PORT || 4000;
-
-// 🔥 Forzar una conexión al iniciar
-(async () => {
-  try {
-    await pool.query('SELECT NOW()');
-    console.log('✅ Conexión inicial a la base exitosa');
-  } catch (error) {
-    console.error('❌ Error de conexión inicial a la base:', error.message);
-  }
-})();
-
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  child.on('error', err => {
+    console.error(`❌ Error al iniciar ${service.name}:`, err);
+  });
 });
