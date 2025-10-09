@@ -18,7 +18,7 @@ app.use(express.json());
 // ✅ Prefijo común para toda la API
 app.use('/api', apiRoutes);
 
-const PORT = process.env.PORT || 4000;
+const PORT_MS_PRINCIPAL = process.env.PORT_MS_PRINCIPAL || 4000;
 
 // 🔥 Forzar una conexión al iniciar
 (async () => {
@@ -30,6 +30,6 @@ const PORT = process.env.PORT || 4000;
   }
 })();
 
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+app.listen(PORT_MS_PRINCIPAL, () => {
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT_MS_PRINCIPAL}`);
 });
