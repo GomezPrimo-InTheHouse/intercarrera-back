@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import apiRoutes from '../routes/index.js';
 import morgan from 'morgan';
 
-import { pool } from '../conection/supabase.js';
+import  pool  from '../conection/supabase.js';
 
 dotenv.config();
 
@@ -18,7 +18,7 @@ app.use(express.json());
 // ✅ Prefijo común para toda la API
 app.use('/api', apiRoutes);
 
-const PORT_MS_PRINCIPAL = process.env.PORT_MS_PRINCIPAL || 4000;
+const PORT_MS_PRINCIPAL = process.env.PORT || 4000;
 
 // 🔥 Forzar una conexión al iniciar
 (async () => {

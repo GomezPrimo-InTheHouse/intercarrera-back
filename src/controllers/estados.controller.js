@@ -1,4 +1,4 @@
-import { pool } from '../conection/supabase.js';
+import pool  from '../conection/supabase.js';
 
 
 // Obtener todos los estados
