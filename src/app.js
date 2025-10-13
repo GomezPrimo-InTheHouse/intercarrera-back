@@ -8,9 +8,9 @@ const __dirname = path.dirname(__filename);
 
 // Listado de microservicios
 const services = [
-  { name: 'ms-principal.js', port: 7001 },
+  { name: 'ms-principal.js', port: 4000 },
   // podés sumar más acá:
-  // { name: 'ms-twilio.js', port: 7002 },
+  { name: 'ms-ai.js', port: 4002 },
 ];
 
 // Levantar cada microservicio
