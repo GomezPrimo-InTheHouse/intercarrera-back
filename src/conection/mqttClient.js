@@ -1,7 +1,7 @@
 import mqtt from "mqtt";
 
 // Configuración del broker
-const MQTT_BROKER = "mqtt://localhost:1883";
+const MQTT_BROKER = "mqtt://192.168.45.187:1883";
 const MQTT_OPTIONS = {
     clientId: "backend_server_" + Math.random().toString(16).substr(2, 8),
     clean: true,
@@ -39,7 +39,7 @@ client.on("message", (topic, message) => {
     }
 });
 
-// ⚠️ Manejar errores
+// Manejar errores
 client.on("error", (err) => {
     console.error("⚠️ Error en conexión MQTT:", err.message);
 });
@@ -50,6 +50,12 @@ client.on("error", (err) => {
 export const publishToRobot = (message) => {
     client.publish("robot/commands", message);
     console.log("📤 Enviado al robot:", message);
+};
+
+// Publicar comando al robot
+export const publishMusic = (message) => {
+    client.publish("robot/music", message);
+    console.log("📤 Enviando musica al robot:", message);
 };
 
 // Publicar mensaje genérico
@@ -65,6 +71,13 @@ export const subscribeToTopic = (topic) => {
         else console.error(`❌ Error al suscribirse a ${topic}:`, err.message);
     });
 };
+
+// Para probar publicar en la consola
+/* // Publicar al test/topic
+publishMessage("test/topic", "Mensaje desde backend ✅"); */
+
+/* // Publicar al robot
+publishToRobot("Comando: avanzar"); */
 
 // Exportar el cliente por si querés usarlo directamente
 export default client;

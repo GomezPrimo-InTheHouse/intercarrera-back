@@ -12,6 +12,7 @@ const services = [
   { name: 'ms-principal.js', port: 4000 },
   // podés sumar más acá:
   { name: 'ms-ai.js', port: 4002 },
+  { name: 'ms-mqtt.js', port: 3002 },
 ];
 
 // Levantar cada microservicio
